@@ -24,7 +24,7 @@ import org.springframework.stereotype.Controller;
  * @Version V1.0
  */
 @Controller
-@RequestMapping("/hello")
+//@RequestMapping("/hello")
 
 public class IndexController {
 
