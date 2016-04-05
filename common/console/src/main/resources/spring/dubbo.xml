@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://code.alibabatech.com/schema/dubbo
+        ">
+
+    <!--&lt;!&ndash; scan the package and the sub package &ndash;&gt;-->
+    <!--<context:component-scan base-package="test.SpringMVC"/>-->
+
+    <!--&lt;!&ndash; don't handle the static resource &ndash;&gt;-->
+    <!--<mvc:default-servlet-handler />-->
+
+    <!--&lt;!&ndash; if you use annotation you must configure following setting &ndash;&gt;-->
+    <!--<mvc:annotation-driven />-->
+
+    <context:annotation-config/>
+    <context:component-scan
+            base-package="cn.demo.client.dubbo.controller"/>
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <mvc:annotation-driven/>
+
+    <!-- configure the InternalResourceViewResolver -->
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"-->
+    <!--id="internalResourceViewResolver">-->
+    <!--&lt;!&ndash; 前缀 &ndash;&gt;-->
+    <!--<property name="prefix" value="/WEB-INF/jsp/" />-->
+    <!--&lt;!&ndash; 后缀 &ndash;&gt;-->
+    <!--<property name="suffix" value=".jsp" />-->
+    <!--</bean>-->
+
+    <!--扩展配置-->
+    <dubbo:application name="dubbo_provider"></dubbo:application>
+    <!--使用zookeeper注册中心暴露服务地址-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181" check="false" subscribe="false" register=""></dubbo:registry>
+    <!-- 要引用的服务 -->
+    <dubbo:reference interface="cn.demo.service.dubbo.register.service.RegisterService"
+                     id="dubboRegisterService"></dubbo:reference>
+</beans>
