@@ -18,10 +18,10 @@
         <!-- Add for Jetty Server -->
         <jetty.version>8.1.0.RC1</jetty.version>
     </properties>
+
     <build>
         <finalName>demo-client</finalName>
     </build>
-
     <dependencies>
         <dependency>
             <groupId>demo.client</groupId>
