@@ -15,6 +15,14 @@
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven/>
 
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="dubbo-demo-consumer" />
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181" />
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:reference id="registerService" interface="cn.demo.service.dubbo.register.service.RegisterService"/>
+
+
     <!-- 根据客户端的不同的请求决定不同的view进行响应, 如 /blog/1.json /blog/1.xml -->
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="defaultContentType" value="text/html"/>

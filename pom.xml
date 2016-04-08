@@ -295,7 +295,6 @@
                     <exclusion>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring</artifactId>
-                        <version>${spring.version}</version>
                     </exclusion>
                     <exclusion>
                         <artifactId>netty</artifactId>
