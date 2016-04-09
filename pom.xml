@@ -2,21 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>demo.client</groupId>
-    <artifactId>demo-client</artifactId>
-    <name>demo-client</name>
-    <version>1.0-SNAPSHOT</version>
-    
-    <packaging>pom</packaging>
 
+    <groupId>demo.client</groupId>
+    <artifactId>demo.client</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>common/console</module>
+        <module>share/web</module>
+        <module>deploy</module>
+        <module>share/service</module>
     </modules>
+
+    <packaging>pom</packaging>
+    <name>demo-client</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>3.2.7.RELEASE</spring.version>
+        <spring.version>3.1.1.RELEASE</spring.version>
     </properties>
 
     <build>
@@ -73,9 +74,9 @@
             </plugin>
         </plugins>
 
-        <!--<filters>-->
-        <!--<filter>src/main/resources/filter/aq-${env}.properties</filter>-->
-        <!--</filters>-->
+        <filters>
+            <filter>src/main/resources/filter/demo-${env}.properties</filter>
+        </filters>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -98,49 +99,57 @@
         </resources>
     </build>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env>dev</env>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>test</id>
+            <properties>
+                <env>test</env>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>pub</id>
+            <properties>
+                <env>pub</env>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>demo.service.api</groupId>
-                <artifactId>demo-service-api</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
-            </dependency>
             <!-- 各种集合类和集合工具类的封装 -->
             <dependency>
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>3.2.1</version>
             </dependency>
-            <!-- dubbo start  -->
+
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>2.5.3</version>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.zookeeper</groupId>
-                <artifactId>zookeeper</artifactId>
-                <version>3.4.6</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.sgroschupf</groupId>
-                <artifactId>zkclient</artifactId>
-                <version>0.1</version>
-            </dependency>
-            <!-- end dubbo -->
 
             <!-- springframework start -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
-                <scope>runtime</scope>
             </dependency>
 
             <dependency>
@@ -183,7 +192,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
                 <version>${spring.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -279,25 +287,43 @@
             </dependency>
             <!-- end  阿里巴巴FastJson是一个Json处理工具包 -->
 
+            <!-- dubbo start  -->
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>2.5</version>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>2.5.3</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>netty</artifactId>
+                        <groupId>org.jboss.netty</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
-
-
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.4.6</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.sgroschupf</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>0.1</version>
+            </dependency>
+            <!-- end dubbo -->
             <dependency>
                 <groupId>commons-httpclient</groupId>
                 <artifactId>commons-httpclient</artifactId>
                 <version>3.0.1</version>
             </dependency>
-
             <dependency>
                 <groupId>com.aliyun.mns</groupId>
                 <artifactId>aliyun-sdk-mns</artifactId>
                 <version>1.1.0</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
