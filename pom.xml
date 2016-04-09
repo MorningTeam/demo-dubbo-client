@@ -10,6 +10,7 @@
     <modules>
         <module>share/web</module>
         <module>deploy</module>
+        <module>share/service</module>
     </modules>
 
     <packaging>pom</packaging>
